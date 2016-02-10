@@ -9,7 +9,7 @@ If you are publishing content and have users/websites digesting your content, yo
 
 ## Requirements
 
-* WordPress 3.9+
+* WordPress 3.7+
 * PHP 5.2.4+
 * [JSON REST API 2.0beta12+](https://wordpress.org/plugins/rest-api/)
 
