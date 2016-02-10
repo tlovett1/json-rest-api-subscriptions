@@ -100,11 +100,8 @@ Content-Type: application/json
 This request would delete the subscription to all posts for `http://hook-destination.com`. Note that `X-WP-Subscription-Signature` is required for authentication.
 
 
-# Resources
+## License
 
-* [Proposed Webhooks Spec](https://webhooks.pbworks.com/w/page/13385128/RESTful%20WebHooks)
-* [Webhooks Security](http://resthooks.org/docs/security/)
-* [Pubsubhubbub Wiki](http://en.wikipedia.org/wiki/PubSubHubbub)
-* [Pubsubhubbub Google Code](http://pubsubhubbub.googlecode.com/svn/trunk/pubsubhubbub-core-0.3.html#anchor5)
-* [PuSHPress](https://wordpress.org/plugins/pushpress/)
-* [WordPress.com PuSH](http://en.support.wordpress.com/pubsubhubbub/)
+JSON REST API Subscriptions is free software; you can redistribute it and/or modify it under the terms of the [GNU General
+Public License](http://www.gnu.org/licenses/gpl-2.0.html) as published by the Free Software Foundation; either version 2 of the License, or (at your option) any
+later version.
