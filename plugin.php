@@ -35,6 +35,6 @@ function jras_register_routes() {
 }
 add_action( 'rest_api_init', 'jras_register_routes' );
 
-require_once( dirname( __FILE__ ) . '/lib/class-jras-subscriptions-cpt.php');
+require_once( dirname( __FILE__ ) . '/lib/class-jras-subscriptions-cpt.php' );
 
 JRAS_Subscription_CPT::factory();

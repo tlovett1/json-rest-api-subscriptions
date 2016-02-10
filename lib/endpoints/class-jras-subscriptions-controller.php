@@ -106,7 +106,7 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 
 	/**
 	 * Check if API call for getting subscriptions is allowed
-	 * 
+	 *
 	 * @since  1.0
 	 * @param  WP_REST_Request $request
 	 * @return boolean
@@ -120,13 +120,14 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 			$check = new WP_Error( 'jras_get_subscriptions_forbidden', esc_html__( 'Sorry, you are not allowed to view subscriptions', 'json-rest-api-subscriptions' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
-		return apply_filters( 'jras_get_subscriptions_permissions_check', $check, $request );;
+		return apply_filters( 'jras_get_subscriptions_permissions_check', $check, $request );
+		;
 	}
 
 	/**
 	 * Check if API call for creating subscriptions is allowed. This is mostly a placeholder
 	 * since we do the real checks later.
-	 * 
+	 *
 	 * @since  1.0
 	 * @param  WP_REST_Request $request
 	 * @return boolean
@@ -138,7 +139,7 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 	/**
 	 * Check if API call for updating subscriptions is allowed. This is mostly a placeholder
 	 * since we do the real checks later.
-	 * 
+	 *
 	 * @since  1.0
 	 * @param  WP_REST_Request $request
 	 * @return boolean
@@ -150,7 +151,7 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 	/**
 	 * Check if API call for deleting subscriptions is allowed. This is mostly a placeholder
 	 * since we do the real checks later.
-	 * 
+	 *
 	 * @since  1.0
 	 * @param  WP_REST_Request $request
 	 * @return boolean
@@ -161,7 +162,7 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 
 	/**
 	 * Delete a subscription given a request
-	 * 
+	 *
 	 * @since  1.0
 	 * @param  WP_REST_Request $request
 	 * @return  WP_REST_Response
@@ -187,7 +188,7 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 
 		/**
 		 * Unfortunately, we have to do a meta query to find existing targets.
-		 * 
+		 *
 		 * @var WP_Query
 		 */
 		$existing_targets = new WP_Query( array(
@@ -237,7 +238,7 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 
 	/**
 	 * Update a subscription given a request
-	 * 
+	 *
 	 * @since  1.0
 	 * @param  WP_REST_Request $request
 	 * @return  WP_REST_Response
@@ -252,7 +253,7 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 		$events = $request['events'];
 		if ( ! is_array( $events ) ) {
 			$events = explode( ',', $events );
-		} 
+		}
 
 		$clean_events = array();
 
@@ -282,7 +283,7 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 
 		/**
 		 * Unfortunately, we have to do a meta query to find existing targets.
-		 * 
+		 *
 		 * @var WP_Query
 		 */
 		$existing_targets = new WP_Query( array(
@@ -332,7 +333,7 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 
 	/**
 	 * Create a subscription given a request
-	 * 
+	 *
 	 * @since  1.0
 	 * @param  WP_REST_Request $request
 	 * @return  WP_REST_Response
@@ -344,7 +345,7 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 		$events = $request['events'];
 		if ( ! is_array( $events ) ) {
 			$events = explode( ',', $events );
-		} 
+		}
 
 		$clean_events = array();
 
@@ -378,7 +379,7 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 
 		/**
 		 * Unfortunately, we have to do a meta query to find existing targets.
-		 * 
+		 *
 		 * @var WP_Query
 		 */
 		$existing_targets = new WP_Query( array(
@@ -436,7 +437,7 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 
 	/**
 	 * Get a subscription given a request
-	 * 
+	 *
 	 * @since  1.0
 	 * @param  WP_REST_Request $request
 	 * @return  WP_REST_Response
@@ -480,9 +481,9 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 
 	/**
 	 * Format a subscription response given a subscription object
-	 * 
+	 *
 	 * @since  1.0
-	 * @param  WP_Post $subscription
+	 * @param  WP_Post         $subscription
 	 * @param  WP_REST_Request $request
 	 * @return  WP_REST_Response
 	 */
@@ -503,7 +504,7 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 
 	/**
 	 * Get subscription schema which describes available fields
-	 * 
+	 *
 	 * @since  1.0
 	 * @return  array
 	 */
@@ -531,6 +532,5 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 
 		return $this->add_additional_fields_schema( $schema );
 	}
-
 }
 
