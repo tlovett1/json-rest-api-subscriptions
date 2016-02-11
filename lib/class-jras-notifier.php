@@ -230,8 +230,6 @@ class JRAS_Notifier {
 
 		$valid_response = false;
 
-		var_dump( $body );
-
 		while ( true ) {
 			if ( $try > $max_tries ) {
 				// We failed
@@ -239,7 +237,7 @@ class JRAS_Notifier {
 			}
 
 			$response = wp_remote_request( $target, apply_filters( 'jras_notification_request_args', array(
-				'method'      => 'post',
+				'method'      => 'POST',
 				'timeout'     => 7,
 				'redirection' => 4,
 				'body'        => json_encode( $body ),

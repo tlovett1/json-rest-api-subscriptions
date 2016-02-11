@@ -412,9 +412,14 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 
 			do_action( 'jras_create_subscription', $clean_events, $clean_target, $update_id, $request );
 
+			$content_type_map = array(
+				'posts' => 'post',
+				'pages' => 'page',
+			);
+
 			update_post_meta( $subscription_id, 'jras_events', $clean_events );
 			update_post_meta( $subscription_id, 'jras_target', $clean_target );
-			update_post_meta( $subscription_id, 'jras_content_type', sanitize_text_field( $content_type ) );
+			update_post_meta( $subscription_id, 'jras_content_type', $content_type_map[$content_type] );
 
 			$signature = wp_generate_password( 26, false, false );
 
