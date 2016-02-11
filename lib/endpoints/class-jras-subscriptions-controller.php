@@ -117,7 +117,7 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 		$check = true;
 
 		if ( ! current_user_can( $post_type->cap->edit_posts ) ) {
-			$check = new WP_Error( 'jras_get_subscriptions_forbidden', esc_html__( 'Sorry, you are not allowed to view subscriptions', 'json-rest-api-subscriptions' ), array( 'status' => rest_authorization_required_code() ) );
+			//$check = new WP_Error( 'jras_get_subscriptions_forbidden', esc_html__( 'Sorry, you are not allowed to view subscriptions', 'json-rest-api-subscriptions' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return apply_filters( 'jras_get_subscriptions_permissions_check', $check, $request );
@@ -379,8 +379,6 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 
 		/**
 		 * Unfortunately, we have to do a meta query to find existing targets.
-		 *
-		 * @var WP_Query
 		 */
 		$existing_targets = new WP_Query( array(
 			'post_type'     => 'jras_subscription',

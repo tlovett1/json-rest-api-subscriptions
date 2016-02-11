@@ -19,7 +19,7 @@ function jras_register_routes() {
 
 	require_once( dirname( __FILE__ ) . '/lib/endpoints/class-jras-subscriptions-controller.php' );
 
-	$content_types = apply_filters( 'jras_subscription_types', array(
+	$content_types = apply_filters( 'jras_subscription_type_endpoints', array(
 		'posts',
 		'pages',
 	) );
@@ -35,6 +35,17 @@ function jras_register_routes() {
 }
 add_action( 'rest_api_init', 'jras_register_routes' );
 
+function jras_subscription_post_types() {
+	return apply_filters( 'jras_subscription_post_types', array(
+		'post',
+		'page',
+	) );
+}
+
 require_once( dirname( __FILE__ ) . '/lib/class-jras-subscriptions-cpt.php' );
+require_once( dirname( __FILE__ ) . '/lib/class-jras-notifier.php' );
+require_once( dirname( __FILE__ ) . '/lib/class-jras-listener.php' );
 
 JRAS_Subscription_CPT::factory();
+JRAS_Notifier::factory();
+JRAS_Listener::factory();
