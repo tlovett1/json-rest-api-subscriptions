@@ -264,6 +264,10 @@ class JRAS_Notifier {
 
 		if ( ! $valid_response ) {
 			wp_delete_post( $subscription_id, true );
+			
+			do_action( 'jras_unsuccessful_notification', $subscription_id, $post, $action );
+		} else {
+			do_action( 'jras_successful_notification', $subscription_id, $post, $action );
 		}
 	}
 
