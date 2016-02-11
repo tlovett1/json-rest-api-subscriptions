@@ -189,6 +189,11 @@ class JRAS_Notifier {
 										$delete_notified_targets[ $target ] = true;
 									}
 								}
+
+								// Delete subscription since post is gone
+								if ( 'delete' === $post->action ) {
+									wp_delete_post( $subscription_id, true );
+								}
 							}
 						}
 					}
@@ -264,7 +269,7 @@ class JRAS_Notifier {
 
 		if ( ! $valid_response ) {
 			wp_delete_post( $subscription_id, true );
-			
+
 			do_action( 'jras_unsuccessful_notification', $subscription_id, $post, $action );
 		} else {
 			do_action( 'jras_successful_notification', $subscription_id, $post, $action );
