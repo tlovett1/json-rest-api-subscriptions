@@ -1,0 +1,13 @@
+{
+    "name": "tlovett1/json-rest-api-subcriptions",
+    "description": "Enable webhooks style subscriptions for posts, pages, and custom post types via the JSON REST API.",
+    "type": "wordpress-plugin",
+    "license": "GPLv2",
+    "authors": [
+        {
+            "name": "Taylor Lovett",
+            "email": "tlovett88@gmail.com"
+        }
+    ],
+    "require": {}
+}
