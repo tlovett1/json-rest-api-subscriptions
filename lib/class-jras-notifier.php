@@ -45,7 +45,7 @@ class JRAS_Notifier {
 	/**
 	 * Prepare a date for an HTTP request. This is pulled from the JSON REST API class-wp-rest-posts-controller.php endpoint.
 	 * The method couldn't be used directly because it is protected.
-	 * 
+	 *
 	 * @param  string $date_gmt
 	 * @param  string $date
 	 * @since  1.0
@@ -69,7 +69,7 @@ class JRAS_Notifier {
 	/**
 	 * Formats post for HTTP request. This is pulled from the JSON REST API class-wp-rest-posts-controller.php endpoint.
 	 * The method couldn't be used directly because it returns a response object.
-	 * 
+	 *
 	 * @param  WP_POST $post
 	 * @since  1.0
 	 * @return array
@@ -159,7 +159,7 @@ class JRAS_Notifier {
 
 								$this->send_notify_request( $subscription_id, $post, $post->action );
 
-								$notified_targets[$target] = true;
+								$notified_targets[ $target ] = true;
 							}
 						}
 					}
@@ -181,12 +181,12 @@ class JRAS_Notifier {
 								$target = get_post_meta( $post->ID, 'jras_target', true );
 
 								// Don't delete notify twice
-								if ( empty( $delete_notified_targets[$target] ) ) {
+								if ( empty( $delete_notified_targets[ $target ] ) ) {
 
 									$this->send_notify_request( $subscription_id, $post, $post->action );
 
 									if ( 'delete' === $post->action ) {
-										$delete_notified_targets[$target] = true;
+										$delete_notified_targets[ $target ] = true;
 									}
 								}
 							}
@@ -200,7 +200,7 @@ class JRAS_Notifier {
 			delete_option( 'jras_deleted_posts' );
 			delete_option( 'jras_updated_posts' );
 			delete_option( 'jras_created_posts' );
-			
+
 			delete_option( 'jras_notifier_lock' );
 		}
 
@@ -208,10 +208,10 @@ class JRAS_Notifier {
 
 	/**
 	 * Send a notification request. If the request fails, we delete the subscription
-	 * 
-	 * @param  int $subscription_id
+	 *
+	 * @param  int     $subscription_id
 	 * @param  WP_Post $post
-	 * @param  string $action
+	 * @param  string  $action
 	 * @since  1.0
 	 */
 	public function send_notify_request( $subscription_id, $post, $action ) {

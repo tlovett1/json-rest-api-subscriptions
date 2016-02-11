@@ -35,6 +35,12 @@ function jras_register_routes() {
 }
 add_action( 'rest_api_init', 'jras_register_routes' );
 
+/**
+ * Get available subscription post types
+ *
+ * @since  1.0
+ * @return array
+ */
 function jras_subscription_post_types() {
 	return apply_filters( 'jras_subscription_post_types', array(
 		'post',

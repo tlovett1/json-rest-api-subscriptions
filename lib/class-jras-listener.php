@@ -36,13 +36,13 @@ class JRAS_Listener {
 		$post = get_post( $post_id );
 		$post->permalink = get_permalink( $post_id );
 
-		$deleted_posts[$post->ID] = $post;
+		$deleted_posts[ $post->ID ] = $post;
 
 		update_option( 'jras_deleted_posts', $deleted_posts );
 	}
 
 	/**
-	 * Mark post for create/update notifications. Unfortunately this is a slight race condition since posts 
+	 * Mark post for create/update notifications. Unfortunately this is a slight race condition since posts
 	 * can be updated simultaneously. This method also runs the risk of filling up options space with posts.
 	 *
 	 * @param string  $new_status
@@ -82,16 +82,14 @@ class JRAS_Listener {
 		if ( in_array( $new_status, $non_deleted_post_statuses ) ) {
 			if ( in_array( $old_status, $non_deleted_post_statuses ) ) {
 				// Updated post. non-deleted to non-deleted
-				
 				$updated_posts = get_option( 'jras_updated_posts', array() );
-				$updated_posts[$post->ID] = $post;
+				$updated_posts[ $post->ID ] = $post;
 
 				update_option( 'jras_updated_posts', $updated_posts );
 			} else {
 				// Created post. deleted to non-deleted
-				
 				$created_posts = get_option( 'jras_created_posts', array() );
-				$created_posts[$post->ID] = $post;
+				$created_posts[ $post->ID ] = $post;
 
 				update_option( 'jras_created_posts', $created_posts );
 			}
@@ -100,9 +98,8 @@ class JRAS_Listener {
 				// deleted to deleted
 			} else {
 				// Deleted posts. non-deleted to deleted
-				
 				$deleted_posts = get_option( 'jras_deleted_posts', array() );
-				$deleted_posts[$post->ID] = $post;
+				$deleted_posts[ $post->ID ] = $post;
 
 				update_option( 'jras_deleted_posts', $created_posts );
 			}
