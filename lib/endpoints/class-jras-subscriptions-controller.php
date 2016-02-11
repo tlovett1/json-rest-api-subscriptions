@@ -248,6 +248,8 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 
 		$content_type = preg_replace( '#^.*/([^/]*)/subscriptions/?$#', '$1', $request->get_route() );
 
+		$content_id = ( ! empty( $request['content_id'] ) ) ? (int) $request['content_id'] : 0;
+
 		$valid_events = apply_filters( 'jras_valid_events', array( 'create', 'update', 'delete' ), $request );
 
 		$events = $request['events'];
@@ -260,6 +262,13 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 		foreach ( $events as $event ) {
 			$clean_event = str_replace( ' ', '', $event );
 			if ( in_array( $clean_event, $valid_events ) ) {
+				if ( ! empty( $content_id ) ) {
+					if ( 'create' === $clean_event ) {
+						// Can't create an existing piece of content
+						continue;
+					}
+				}
+
 				$clean_events[] = $clean_event;
 			}
 		}
@@ -271,7 +280,6 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 		/**
 		 * Account for if we are subscribing to a single piece of content
 		 */
-		$content_id = ( ! empty( $request['content_id'] ) ) ? (int) $request['content_id'] : 0;
 
 		if ( ! empty( $content_id ) ) {
 			$content_subscription = get_post( $content_id );
@@ -340,6 +348,8 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 	 */
 	public function create_subscription( $request ) {
 
+		$content_id = ( ! empty( $request['content_id'] ) ) ? (int) $request['content_id'] : 0;
+
 		$valid_events = apply_filters( 'jras_valid_events', array( 'create', 'update', 'delete' ), $request );
 
 		$events = $request['events'];
@@ -352,6 +362,13 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 		foreach ( $events as $event ) {
 			$clean_event = str_replace( ' ', '', $event );
 			if ( in_array( $clean_event, $valid_events ) ) {
+				if ( ! empty( $content_id ) ) {
+					if ( 'create' === $clean_event ) {
+						// Can't create an existing piece of content
+						continue;
+					}
+				}
+
 				$clean_events[] = $clean_event;
 			}
 		}
@@ -367,7 +384,6 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 		/**
 		 * Account for if we are subscribing to a single piece of content
 		 */
-		$content_id = ( ! empty( $request['content_id'] ) ) ? (int) $request['content_id'] : 0;
 
 		if ( ! empty( $content_id ) ) {
 			$content_subscription = get_post( $content_id );
