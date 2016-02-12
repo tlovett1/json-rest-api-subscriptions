@@ -411,7 +411,7 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 			foreach ( $existing_targets->posts as $existing_target_id ) {
 				$existing_target_type = get_post_meta( $existing_target_id, 'jras_content_type', true );
 
-				if ( $content_type === $existing_target_type ) {
+				if ( $content_type === $existing_target_type || ! empty( $content_id ) ) {
 					return new WP_Error( 'create_subscription_target_exists', esc_html__( 'Subscription target already exists.', 'json-rest-api-subscriptions' ), array( 'status' => 400 ) );
 				}
 			}
