@@ -171,7 +171,7 @@ class JRAS_Notifier {
 						'post_parent'   => $post->ID,
 					) );
 
-					if ( $content_item_subscriptions->have_posts ) {
+					if ( $content_item_subscriptions->have_posts() ) {
 
 						foreach ( $content_item_subscriptions->posts as $subscription_id ) {
 							$events = get_post_meta( $post->ID, 'jras_events', true );
