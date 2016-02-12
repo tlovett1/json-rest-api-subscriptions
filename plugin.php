@@ -19,13 +19,10 @@ function jras_register_routes() {
 
 	require_once( dirname( __FILE__ ) . '/lib/endpoints/class-jras-subscriptions-controller.php' );
 
-	$content_types = apply_filters( 'jras_subscription_type_endpoints', array(
-		'posts',
-		'pages',
-	) );
+	$namespace_post_types = jras_subscription_namespace_post_types();
 
-	foreach ( $content_types as $content_type ) {
-		$controller = new JRAS_Subscriptions_Controller( 'wp/v2', $content_type );
+	foreach ( $namespace_post_types as $namespace_post_type ) {
+		$controller = new JRAS_Subscriptions_Controller( $namespace_post_type['namespace'], $namespace_post_type['rest_base'] );
 		$controller->register_routes();
 	}
 
@@ -41,10 +38,18 @@ add_action( 'rest_api_init', 'jras_register_routes' );
  * @since  1.0
  * @return array
  */
-function jras_subscription_post_types() {
-	return apply_filters( 'jras_subscription_post_types', array(
-		'post',
-		'page',
+function jras_subscription_namespace_post_types() {
+	return apply_filters( 'jras_subscription_namespace_post_types', array(
+		array(
+			'namespace' => 'wp/v2',
+			'rest_base' => 'posts',
+			'post_type' => 'post',
+		),
+		array(
+			'namespace' => 'wp/v2',
+			'rest_base' => 'pages',
+			'post_type' => 'page',
+		),
 	) );
 }
 

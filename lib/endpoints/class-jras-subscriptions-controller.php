@@ -6,12 +6,12 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 	 * Setup new subscription controller
 	 *
 	 * @since  1.0
-	 * @param string $namespace    wp/v2 is the default for WordPress
-	 * @param string $content_type Usually custom post type slug
+	 * @param string $namespace wp/v2 is the default for WordPress
+	 * @param string $rest_base Usually custom post type slug
 	 */
-	public function __construct( $namespace, $content_type ) {
+	public function __construct( $namespace, $rest_base ) {
 		$this->namespace = $namespace;
-		$this->rest_base = $content_type;
+		$this->rest_base = $rest_base;
 	}
 
 	/**
@@ -171,7 +171,17 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 
 		$clean_target = untrailingslashit( esc_url_raw( $request['target'] ) );
 
-		$content_type = preg_replace( '#^.*/([^/]*)/subscriptions/?$#', '$1', $request->get_route() );
+		$rest_base = preg_replace( '#^.*/([^/]*)/subscriptions/?$#', '$1', $request->get_route() );
+
+		$post_type = '';
+
+		$namespace_post_types = jras_subscription_namespace_post_types();
+
+		foreach ( $namespace_post_types as $namespace_post_type ) {
+			if ( $rest_base === $namespace_post_type['rest_base'] ) {
+				$post_type = $namespace_post_type['post_type'];
+			}
+		}
 
 		/**
 		 * Account for if we are subscribing to a single piece of content
@@ -208,7 +218,7 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 			foreach ( $existing_targets->posts as $existing_target_id ) {
 				$existing_target_type = get_post_meta( $existing_target_id, 'jras_content_type', true );
 
-				if ( $content_type === $existing_target_type ) {
+				if ( $post_type === $existing_target_type ) {
 					$delete_id = $existing_target_id;
 				}
 			}
@@ -246,7 +256,17 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 	public function update_subscription( $request ) {
 		$clean_target = untrailingslashit( esc_url_raw( $request['target'] ) );
 
-		$content_type = preg_replace( '#^.*/([^/]*)/subscriptions/?$#', '$1', $request->get_route() );
+		$rest_base = preg_replace( '#^.*/([^/]*)/subscriptions/?$#', '$1', $request->get_route() );
+
+		$post_type = '';
+
+		$namespace_post_types = jras_subscription_namespace_post_types();
+
+		foreach ( $namespace_post_types as $namespace_post_type ) {
+			if ( $rest_base === $namespace_post_type['rest_base'] ) {
+				$post_type = $namespace_post_type['post_type'];
+			}
+		}
 
 		$content_id = ( ! empty( $request['content_id'] ) ) ? (int) $request['content_id'] : 0;
 
@@ -311,7 +331,7 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 			foreach ( $existing_targets->posts as $existing_target_id ) {
 				$existing_target_type = get_post_meta( $existing_target_id, 'jras_content_type', true );
 
-				if ( $content_type === $existing_target_type ) {
+				if ( $post_type === $existing_target_type ) {
 					$update_id = $existing_target_id;
 				}
 			}
@@ -379,7 +399,17 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 
 		$clean_target = untrailingslashit( esc_url_raw( $request['target'] ) );
 
-		$content_type = preg_replace( '#^.*/([^/]*)/subscriptions/?$#', '$1', $request->get_route() );
+		$rest_base = preg_replace( '#^.*/([^/]*)/subscriptions/?$#', '$1', $request->get_route() );
+
+		$post_type = '';
+
+		$namespace_post_types = jras_subscription_namespace_post_types();
+
+		foreach ( $namespace_post_types as $namespace_post_type ) {
+			if ( $rest_base === $namespace_post_type['rest_base'] ) {
+				$post_type = $namespace_post_type['post_type'];
+			}
+		}
 
 		/**
 		 * Account for if we are subscribing to a single piece of content
@@ -411,7 +441,7 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 			foreach ( $existing_targets->posts as $existing_target_id ) {
 				$existing_target_type = get_post_meta( $existing_target_id, 'jras_content_type', true );
 
-				if ( $content_type === $existing_target_type || ! empty( $content_id ) ) {
+				if ( $post_type === $existing_target_type || ! empty( $content_id ) ) {
 					return new WP_Error( 'create_subscription_target_exists', esc_html__( 'Subscription target already exists.', 'json-rest-api-subscriptions' ), array( 'status' => 400 ) );
 				}
 			}
@@ -428,14 +458,9 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 
 			do_action( 'jras_create_subscription', $clean_events, $clean_target, $update_id, $request );
 
-			$content_type_map = array(
-				'posts' => 'post',
-				'pages' => 'page',
-			);
-
 			update_post_meta( $subscription_id, 'jras_events', $clean_events );
 			update_post_meta( $subscription_id, 'jras_target', $clean_target );
-			update_post_meta( $subscription_id, 'jras_content_type', $content_type_map[$content_type] );
+			update_post_meta( $subscription_id, 'jras_content_type', $post_type );
 
 			$signature = wp_generate_password( 26, false, false );
 
@@ -462,7 +487,15 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 	 * @return  WP_REST_Response
 	 */
 	public function get_subscriptions( $request ) {
-		$content_type = preg_replace( '#^.*/([^/]*)/subscriptions/?$#', '$1', $request->get_route() );
+		$rest_base = preg_replace( '#^.*/([^/]*)/subscriptions/?$#', '$1', $request->get_route() );
+
+		$namespace_post_types = jras_subscription_namespace_post_types();
+
+		foreach ( $namespace_post_types as $namespace_post_type ) {
+			if ( $rest_base === $namespace_post_type['rest_base'] ) {
+				$post_type = $namespace_post_type['post_type'];
+			}
+		}
 
 		/**
 		 * Account for if we are subscribing to a single piece of content
@@ -482,7 +515,7 @@ class JRAS_Subscriptions_Controller extends WP_REST_Controller {
 			'post_status'   => 'publish',
 			'no_found_rows' => true,
 			'meta_key'      => 'jras_content_type',
-			'meta_value'    => $content_type,
+			'meta_value'    => $post_type,
 			'post_parent'   => $content_id,
 		) );
 

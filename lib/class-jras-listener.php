@@ -25,7 +25,7 @@ class JRAS_Listener {
 			return;
 		}
 
-		$valid_post_types = jras_subscription_post_types();
+		$valid_post_types = wp_list_pluck( jras_subscription_namespace_post_types(), 'post_type' );
 
 		if ( ! in_array( $post_type, $valid_post_types ) ) {
 			return;
@@ -68,7 +68,7 @@ class JRAS_Listener {
 
 		$post_type = get_post_type( $post->ID );
 
-		$valid_post_types = jras_subscription_post_types();
+		$valid_post_types = wp_list_pluck( jras_subscription_namespace_post_types(), 'post_type' );
 
 		if ( ! in_array( $post_type, $valid_post_types ) ) {
 			return;
