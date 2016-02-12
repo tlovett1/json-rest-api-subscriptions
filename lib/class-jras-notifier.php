@@ -174,11 +174,11 @@ class JRAS_Notifier {
 					if ( $content_item_subscriptions->have_posts() ) {
 
 						foreach ( $content_item_subscriptions->posts as $subscription_id ) {
-							$events = get_post_meta( $post->ID, 'jras_events', true );
+							$events = get_post_meta( $subscription_id, 'jras_events', true );
 
 							// Only notify if they are subscribed to delete. Faster than doing a multi-dimensional meta query
 							if ( in_array( $post->action, $events ) ) {
-								$target = get_post_meta( $post->ID, 'jras_target', true );
+								$target = get_post_meta( $subscription_id, 'jras_target', true );
 
 								// Don't delete notify twice
 								if ( empty( $delete_notified_targets[ $target ] ) ) {
