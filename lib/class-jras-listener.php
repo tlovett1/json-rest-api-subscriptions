@@ -78,6 +78,16 @@ class JRAS_Listener {
 
 		// Store this for later in case we are deleting the post
 		$post->permalink = get_permalink( $post->ID );
+		$post->featured_image = wp_get_attachment_url( $post->ID );
+
+		$user = get_user_by( 'id', $post->post_author );
+
+		$post->author = array(
+			'user_login'    => $user->user_login,
+			'user_nicename' => $user->user_nicename,
+			'user_url'      => $user->user_url,
+			'display_name'  => $user->display_name,
+		);
 
 		if ( in_array( $new_status, $non_deleted_post_statuses ) ) {
 			if ( in_array( $old_status, $non_deleted_post_statuses ) ) {

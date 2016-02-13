@@ -9,7 +9,7 @@ If you are publishing content and have users/websites digesting your content, yo
 
 ## Requirements
 
-* WordPress 3.7+
+* WordPress 4.4+
 * PHP 5.2.4+
 * [JSON REST API 2.0beta12+](https://wordpress.org/plugins/rest-api/)
 
@@ -24,9 +24,9 @@ Once the plugin is activated, there is no configuration necessary. Endpoints wil
 
 ## Usage
 
-Users and websites can subscribe to your content by sending HTTP requests to the following endpoints:
-
 ### Endpoints
+
+Users and websites can subscribe to your content by sending HTTP requests to the following endpoints:
 
 * `/wp-json/<post-type>/subscriptions`
 
@@ -48,7 +48,7 @@ Users and websites can subscribe to your content by sending HTTP requests to the
   * PUT  - Update a particular subscription
   * DELETE - Delete a particular subscription
 
-### Creating a New Subscription
+#### Creating a New Subscription
 
 Send an HTTP request to a valid subscription endpoint like so:
 
@@ -66,7 +66,7 @@ Content-Type: application/json
 
 After creating a subscription, the return response will content a `X-WP-Subscription-Signature` header. This header is your *password* for deleting and updating this subscription in the future.
 
-### Updating a Subscription
+#### Updating a Subscription
 
 Send an HTTP request to a valid subscription endpoint like so:
 
@@ -83,7 +83,7 @@ Content-Type: application/json
 
 This request would update the subscription to all posts for `http://hook-destination.com` to only send notifications for `update` events. Note that `X-WP-Subscription-Signature` is required for authentication.
 
-### Deleting a Subscription
+#### Deleting a Subscription
 
 Send an HTTP request to a valid subscription endpoint like so:
 
@@ -99,6 +99,21 @@ Content-Type: application/json
 
 This request would delete the subscription to all posts for `http://hook-destination.com`. Note that `X-WP-Subscription-Signature` is required for authentication.
 
+### Notification Request
+
+When a subscription is triggered, a notification will be sent that looks like this:
+
+```
+POST http://mynotificationtarget.com
+Content-Type: application/json
+
+{
+  "action": "create",
+  "item": {
+    
+  }
+}
+```
 
 ## License
 

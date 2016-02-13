@@ -80,17 +80,28 @@ class JRAS_Notifier {
 			'date'         => $this->prepare_date_response( $post->post_date_gmt, $post->post_date ),
 			'date_gmt'     => $this->prepare_date_response( $post->post_date_gmt ),
 			'guid'         => array(
-				/** This filter is documented in wp-includes/post-template.php */
 				'rendered' => apply_filters( 'get_the_guid', $post->guid ),
 				'raw'      => $post->guid,
 			),
+			'title'        => array(
+				'raw'      => $post->post_title,
+				'rendered' => apply_filters( 'the_title', $post->post_title, $post->ID ),
+			),
+			'content'      => array(
+				'raw'      => $post->post_content,
+				'rendered' => apply_filters( 'the_content', $post->post_content ),
+			),
+			'excerpt' = array(
+				'raw'      => $post->post_excerpt,
+				'rendered' => apply_filters( 'the_excerpt', apply_filters( 'get_the_excerpt', $post->post_excerpt ) ),
+			),
 			'modified'     => $this->prepare_date_response( $post->post_modified_gmt, $post->post_modified ),
 			'modified_gmt' => $this->prepare_date_response( $post->post_modified_gmt ),
-			'password'     => $post->post_password,
 			'slug'         => $post->post_name,
 			'status'       => $post->post_status,
 			'type'         => $post->post_type,
 			'link'         => $post->permalink,
+			'author'       => $post->author,
 		);
 	}
 

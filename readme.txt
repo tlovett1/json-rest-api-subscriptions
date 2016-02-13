@@ -1,7 +1,7 @@
 === JSON REST API Subscriptions ===
 Contributors: tlovett1, 10up
 Tags: json rest api, wp api, api webhooks, webhooks, rest api, rest, api, api subscriptions, pubsubhubbub
-Requires at least: 3.7
+Requires at least: 4.4
 Tested up to: 4.5
 Stable tag: trunk
 License: GPLv2 or later
