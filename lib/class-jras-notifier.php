@@ -91,7 +91,7 @@ class JRAS_Notifier {
 				'raw'      => $post->post_content,
 				'rendered' => apply_filters( 'the_content', $post->post_content ),
 			),
-			'excerpt' = array(
+			'excerpt'      => array(
 				'raw'      => $post->post_excerpt,
 				'rendered' => apply_filters( 'the_excerpt', apply_filters( 'get_the_excerpt', $post->post_excerpt ) ),
 			),
