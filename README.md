@@ -115,8 +115,8 @@ X-WP-Notification: https://subscriptionsite.com
       "date": "2016-02-13T05:13:05",
       "date_gmt": "2016-02-13T05:13:05",
       "guid":{  
-         "rendered": "http:\/\/local.wordpress-trunk.dev\/?p=3216",
-         "raw": "http:\/\/local.wordpress-trunk.dev\/?p=3216"
+         "rendered": "https:\/\/subscriptionsite.com\/?p=3216",
+         "raw": "https:\/\/subscriptionsite.com\/?p=3216"
       },
       "title": {  
          "raw": "Test Post",
@@ -135,11 +135,11 @@ X-WP-Notification: https://subscriptionsite.com
       "slug": "test-post-2",
       "status": "publish",
       "type": "post",
-      "link": "http:\/\/local.wordpress-trunk.dev\/2016\/02\/13\/test-post-2\/",
+      "link": "https:\/\/subscriptionsite.com\/2016\/02\/13\/test-post-2\/",
       "author": {  
          "user_login": "admin",
          "user_nicename": "admin",
-         "user_url": "http://taylorlovett.com",
+         "user_url": "https:\/\/taylorlovett.com",
          "display_name": "admin"
       }
    }
