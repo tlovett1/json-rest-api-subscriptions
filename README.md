@@ -104,14 +104,45 @@ This request would delete the subscription to all posts for `http://hook-destina
 When a subscription is triggered, a notification will be sent that looks like this:
 
 ```
-POST http://mynotificationtarget.com
+POST https://mynotificationtarget.com
 Content-Type: application/json
+X-WP-Notification: https://subscriptionsite.com
 
-{
-  "action": "create",
-  "item": {
-    
-  }
+{  
+   "action": "update",
+   "item":{  
+      "id": 3216,
+      "date": "2016-02-13T05:13:05",
+      "date_gmt": "2016-02-13T05:13:05",
+      "guid":{  
+         "rendered": "http:\/\/local.wordpress-trunk.dev\/?p=3216",
+         "raw": "http:\/\/local.wordpress-trunk.dev\/?p=3216"
+      },
+      "title": {  
+         "raw": "Test Post",
+         "rendered": "Test Post"
+      },
+      "content": {  
+         "raw": "This is my test content",
+         "rendered": "This is my test content"
+      },
+      "excerpt": {  
+         "raw": "This is my test excerpt",
+         "rendered": "This is my test excerpt"
+      },
+      "modified": "2016-02-13T05:19:35",
+      "modified_gmt": "2016-02-13T05:19:35",
+      "slug": "test-post-2",
+      "status": "publish",
+      "type": "post",
+      "link": "http:\/\/local.wordpress-trunk.dev\/2016\/02\/13\/test-post-2\/",
+      "author": {  
+         "user_login": "admin",
+         "user_nicename": "admin",
+         "user_url": "http://taylorlovett.com",
+         "display_name": "admin"
+      }
+   }
 }
 ```
 
