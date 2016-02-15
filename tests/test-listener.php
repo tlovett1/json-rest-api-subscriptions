@@ -46,6 +46,41 @@ class CCFTestPostCreation extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Make sure deleted posts are properly marked for notifications
+	 *
+	 * @since  1.0
+	 */
+	public function testDeleteMarkForNotification() {
+		$post_id = wp_insert_post( array(
+			'post_title'   => 'Test post',
+			'post_content' => 'test',
+			'post_status'  => 'publish',
+			'post_type'    => 'post',
+		) );
+
+		wp_delete_post( $post_id );
+
+		$marked_for_delete_notifications = get_option( 'jras_deleted_posts', array() );
+
+		$this->assertTrue( ! empty( $marked_for_delete_notifications[$post_id] ) );
+
+		// Add a second post
+
+		$post_id = wp_insert_post( array(
+			'post_title'   => 'Test post',
+			'post_content' => 'test',
+			'post_status'  => 'publish',
+			'post_type'    => 'post',
+		) );
+
+		wp_delete_post( $post_id );
+
+		$marked_for_delete_notifications = get_option( 'jras_deleted_posts', array() );
+
+		$this->assertEquals( 2, count( $marked_for_delete_notifications ) );
+	}
+
+	/**
 	 * Make sure created posts are properly marked for notifications
 	 *
 	 * @since  1.0

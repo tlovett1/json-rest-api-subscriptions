@@ -10,6 +10,7 @@ class JRAS_Listener {
 	private function setup() {
 		add_action( 'transition_post_status', array( $this, 'update_post' ), 999, 3 );
 		add_action( 'delete_post', array( $this, 'delete_post' ) );
+		add_action( 'trash_post', array( $this, 'delete_post' ) );
 	}
 
 	/**
