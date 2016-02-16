@@ -13,9 +13,7 @@ Enable subscriptions to posts, pages, and custom post types. Users can securely 
 
 If you are publishing content and have users/websites digesting your content, you may have been faced with the problem: how do I get updates to users immediately? In the past users/websites have subscribed to feeds or used techniques like "polling" to constantly ping your site for new content. Both these techniques are cumbersome and old fashioned. JSON REST API Subscriptions creates new API endpoints to allow people to subscribe to new content, content updates, and content deletes across general post types as well as single pieces of content.
 
-For details on the plugin and extended usage documentation, please visit [Github](http://github.com/tlovett1/json-rest-api-subscriptions).
-
-For detailed install and usage instructions, please visit [Github](http://github.com/tlovett1/custom-contact-forms).
+For details on the plugin and extended usage/installation documentation, please visit [Github](http://github.com/tlovett1/json-rest-api-subscriptions).
 
 == Installation ==
 
