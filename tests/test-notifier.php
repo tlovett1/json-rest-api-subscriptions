@@ -161,4 +161,277 @@ class CCFTestNotifier extends WP_UnitTestCase {
 
 		$this->assertTrue( $unsuccessful_notification );
 	}
+
+	/**
+	 * Test two posts notification with one subscriber
+	 *
+	 * @since  1.0
+	 */
+	public function testTwoNotificationsPostsOneSubscriber() {
+		$successful_notifications = 0;
+		$signature = 'test';
+
+		$this->_create_subscription( 'http://test.com', $signature );
+
+		// Stub the wp_remote_request function
+		\Patchwork\replace( 'wp_remote_request', function( $url, $args = array() ) use ( $signature ) {
+			return array(
+				'response' => array(
+					'code'                        => 200,
+				),
+				'headers'  => array(
+					'x-wp-subscription-signature' => $signature,
+				),
+			);
+		} );
+
+		wp_insert_post( array(
+			'post_title'   => 'Test post',
+			'post_content' => 'test',
+			'post_status'  => 'publish',
+			'post_type'    => 'post',
+		) );
+
+		wp_insert_post( array(
+			'post_title'   => 'Test post2',
+			'post_content' => 'test',
+			'post_status'  => 'publish',
+			'post_type'    => 'post',
+		) );
+
+		add_action( 'jras_successful_notification', function() use ( &$successful_notifications ) {
+			$successful_notifications++;
+		} );
+
+		JRAS_Notifier::factory()->notify();
+
+		$this->assertEquals( 2, $successful_notifications );
+	}
+
+	/**
+	 * Test two posts notification with one subscriber both failed
+	 *
+	 * @since  1.0
+	 */
+	public function testTwoNotificationsPostsOneSubscriberFailedBadSignature() {
+		$unsuccessful_notifications = 0;
+		$signature = 'test';
+
+		$this->_create_subscription( 'http://test.com', $signature );
+
+		// Stub the wp_remote_request function
+		\Patchwork\replace( 'wp_remote_request', function( $url, $args = array() ) use ( $signature ) {
+			return array(
+				'response' => array(
+					'code'                        => 200,
+				),
+				'headers'  => array(
+					'x-wp-subscription-signature' => $signature . 'bad',
+				),
+			);
+		} );
+
+		wp_insert_post( array(
+			'post_title'   => 'Test post',
+			'post_content' => 'test',
+			'post_status'  => 'publish',
+			'post_type'    => 'post',
+		) );
+
+		wp_insert_post( array(
+			'post_title'   => 'Test post2',
+			'post_content' => 'test',
+			'post_status'  => 'publish',
+			'post_type'    => 'post',
+		) );
+
+		wp_insert_post( array(
+			'post_title'   => 'Test post3',
+			'post_content' => 'test',
+			'post_status'  => 'publish',
+			'post_type'    => 'post',
+		) );
+
+		add_action( 'jras_unsuccessful_notification', function() use ( &$unsuccessful_notifications ) {
+			$unsuccessful_notifications++;
+		} );
+
+		JRAS_Notifier::factory()->notify();
+
+		// Only one since signature gets deleted due to bad response
+		$this->assertEquals( 1, $unsuccessful_notifications );
+	}
+
+	/**
+	 * Test two posts notification with one subscriber both failed because of response code
+	 *
+	 * @since  1.0
+	 */
+	public function testThreeNotificationsPostsOneSubscriberFailedBadResponse() {
+		$unsuccessful_notifications = 0;
+		$signature = 'test';
+
+		$this->_create_subscription( 'http://test.com', $signature );
+
+		// Stub the wp_remote_request function
+		\Patchwork\replace( 'wp_remote_request', function( $url, $args = array() ) use ( $signature ) {
+			return array(
+				'response' => array(
+					'code'                        => 400,
+				),
+				'headers'  => array(
+					'x-wp-subscription-signature' => $signature,
+				),
+			);
+		} );
+
+		wp_insert_post( array(
+			'post_title'   => 'Test post',
+			'post_content' => 'test',
+			'post_status'  => 'publish',
+			'post_type'    => 'post',
+		) );
+
+		wp_insert_post( array(
+			'post_title'   => 'Test post2',
+			'post_content' => 'test',
+			'post_status'  => 'publish',
+			'post_type'    => 'post',
+		) );
+
+		wp_insert_post( array(
+			'post_title'   => 'Test post3',
+			'post_content' => 'test',
+			'post_status'  => 'publish',
+			'post_type'    => 'post',
+		) );
+
+		add_action( 'jras_unsuccessful_notification', function() use ( &$unsuccessful_notifications ) {
+			$unsuccessful_notifications++;
+		} );
+
+		JRAS_Notifier::factory()->notify();
+
+		// Only one since signature gets deleted due to bad response
+		$this->assertEquals( 1, $unsuccessful_notifications );
+	}
+
+	/**
+	 * Test multiple successful notifications to multiple subscribers
+	 * 
+	 * @since 1.0
+	 */
+	public function testMultipleNotificationsPostMultipleSubscribers() {
+		$successful_notifications_subscriber_1 = 0;
+		$successful_notifications_subscriber_2 = 0;
+		$signature = 'test';
+
+		$subscriber_1_id = $this->_create_subscription( 'http://test.com', $signature );
+		$subscriber_2_id = $this->_create_subscription( 'http://test2.com', $signature );
+
+		// Stub the wp_remote_request function
+		\Patchwork\replace( 'wp_remote_request', function( $url, $args = array() ) use ( $signature ) {
+			return array(
+				'response' => array(
+					'code'                        => 200,
+				),
+				'headers'  => array(
+					'x-wp-subscription-signature' => $signature,
+				),
+			);
+		} );
+
+		wp_insert_post( array(
+			'post_title'   => 'Test post',
+			'post_content' => 'test',
+			'post_status'  => 'publish',
+			'post_type'    => 'post',
+		) );
+
+		wp_insert_post( array(
+			'post_title'   => 'Test post2',
+			'post_content' => 'test',
+			'post_status'  => 'publish',
+			'post_type'    => 'post',
+		) );
+
+		add_action( 'jras_successful_notification', function( $subscription_id, $post, $action ) use ( &$successful_notifications_subscriber_1, &$successful_notifications_subscriber_2, &$subscriber_1_id, &$subscriber_2_id ) {
+			if ( $subscriber_1_id === $subscription_id ) {
+				$successful_notifications_subscriber_1++;
+			} elseif ( $subscriber_2_id === $subscription_id ) {
+				$successful_notifications_subscriber_2++;
+			}
+		}, 10, 3 );
+
+		JRAS_Notifier::factory()->notify();
+
+		$this->assertEquals( 2, $successful_notifications_subscriber_1 );
+		$this->assertEquals( 2, $successful_notifications_subscriber_2 );
+	}
+
+	/**
+	 * Test multiple mixed success notifications to multiple subscribers
+	 * 
+	 * @since 1.0
+	 */
+	public function testMultipleNotificationsPostMultipleSubscribersMixedSuccess() {
+		$successful_notifications_subscriber_1 = 0;
+		$successful_notifications_subscriber_2 = 0;
+		$unsuccessful_notifications_subscriber_1 = 0;
+		$unsuccessful_notifications_subscriber_2 = 0;
+		$signature = 'test';
+
+		$subscriber_1_id = $this->_create_subscription( 'http://test.com', $signature );
+		$subscriber_2_id = $this->_create_subscription( 'http://test2.com', 'test2' );
+
+		// Stub the wp_remote_request function
+		\Patchwork\replace( 'wp_remote_request', function( $url, $args = array() ) use ( $signature ) {
+			return array(
+				'response' => array(
+					'code'                        => 200,
+				),
+				'headers'  => array(
+					'x-wp-subscription-signature' => $signature,
+				),
+			);
+		} );
+
+		wp_insert_post( array(
+			'post_title'   => 'Test post',
+			'post_content' => 'test',
+			'post_status'  => 'publish',
+			'post_type'    => 'post',
+		) );
+
+		wp_insert_post( array(
+			'post_title'   => 'Test post2',
+			'post_content' => 'test',
+			'post_status'  => 'publish',
+			'post_type'    => 'post',
+		) );
+
+		add_action( 'jras_successful_notification', function( $subscription_id, $post, $action ) use ( &$successful_notifications_subscriber_1, &$successful_notifications_subscriber_2, &$subscriber_1_id, &$subscriber_2_id ) {
+			if ( $subscriber_1_id === $subscription_id ) {
+				$successful_notifications_subscriber_1++;
+			} elseif ( $subscriber_2_id === $subscription_id ) {
+				$successful_notifications_subscriber_2++;
+			}
+		}, 10, 3 );
+
+		add_action( 'jras_unsuccessful_notification', function( $subscription_id, $post, $action ) use ( &$unsuccessful_notifications_subscriber_1, &$unsuccessful_notifications_subscriber_2, &$subscriber_1_id, &$subscriber_2_id ) {
+			if ( $subscriber_1_id === $subscription_id ) {
+				$unsuccessful_notifications_subscriber_1++;
+			} elseif ( $subscriber_2_id === $subscription_id ) {
+				$unsuccessful_notifications_subscriber_2++;
+			}
+		}, 10, 3 );
+
+		JRAS_Notifier::factory()->notify();
+
+		$this->assertEquals( 2, $successful_notifications_subscriber_1 );
+		$this->assertEquals( 0, $successful_notifications_subscriber_2 );
+
+		$this->assertEquals( 0, $unsuccessful_notifications_subscriber_1 );
+		$this->assertEquals( 1, $unsuccessful_notifications_subscriber_2 );
+	}
 }
