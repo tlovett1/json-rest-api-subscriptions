@@ -35,7 +35,7 @@ class JRAS_Subscription_CPT {
 			'has_archive' => false,
 		);
 
-		register_post_type( 'jra_subscription', $args );
+		register_post_type( 'jras_subscription', $args );
 	}
 
 	/**

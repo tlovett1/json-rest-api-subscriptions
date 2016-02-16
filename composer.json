@@ -9,5 +9,7 @@
             "email": "tlovett88@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "antecedent/patchwork": "^1.4"
+    }
 }

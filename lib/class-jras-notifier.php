@@ -74,7 +74,13 @@ class JRAS_Notifier {
 	 * @since  1.0
 	 * @return array
 	 */
-	public function format_post_for_request( $post ) {
+	public function format_post_for_request( $request_post ) {
+		global $post;
+
+		$post = $request_post;
+
+		setup_postdata( $post );
+
 		return array(
 			'id'           => $post->ID,
 			'date'         => $this->prepare_date_response( $post->post_date_gmt, $post->post_date ),
@@ -93,7 +99,7 @@ class JRAS_Notifier {
 			),
 			'excerpt'      => array(
 				'raw'      => $post->post_excerpt,
-				'rendered' => apply_filters( 'the_excerpt', apply_filters( 'get_the_excerpt', $post->post_excerpt ) ),
+				'rendered' => apply_filters( 'the_excerpt', apply_filters( 'get_the_excerpt', $post->post_excerpt, $post ) ),
 			),
 			'modified'     => $this->prepare_date_response( $post->post_modified_gmt, $post->post_modified ),
 			'modified_gmt' => $this->prepare_date_response( $post->post_modified_gmt ),
@@ -103,6 +109,8 @@ class JRAS_Notifier {
 			'link'         => $post->permalink,
 			'author'       => $post->author,
 		);
+
+		wp_reset_postdata();
 	}
 
 	/**

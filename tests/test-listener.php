@@ -1,6 +1,6 @@
 <?php
 
-class CCFTestPostCreation extends WP_UnitTestCase {
+class CCFTestListener extends WP_UnitTestCase {
 
 	/**
 	 * Setup each test making sure we are logged in as an admin
