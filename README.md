@@ -1,4 +1,4 @@
-JSON REST API Subscriptions
+JSON REST API Subscriptions [![Build Status](https://travis-ci.org/tlovett1/json-rest-api-subscriptions.svg?branch=master)](https://travis-ci.org/tlovett1/json-rest-api-subscriptions)
 ===============
 
 Enable subscriptions to posts, pages, and custom post types in WordPress. Users can securely subscribe via simple API routes to new content, content updates, and content deletes for post types or single pieces of content.
