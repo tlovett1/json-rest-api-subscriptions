@@ -136,17 +136,17 @@ class JRAS_Notifier {
 
 			foreach ( $deleted_posts as $post_id => $post ) {
 				$post->action = 'delete';
-				$changed_posts['delete' . $post_id] = $post;
+				$changed_posts['1delete' . $post_id] = $post;
 			}
 
 			foreach ( $created_posts as $post_id => $post ) {
 				$post->action = 'create';
-				$changed_posts['create' . $post_id] = $post;
+				$changed_posts['2create' . $post_id] = $post;
 			}
 
 			foreach ( $updated_posts as $post_id => $post ) {
 				$post->action = 'update';
-				$changed_posts['update' . $post_id] = $post;
+				$changed_posts['3update' . $post_id] = $post;
 			}
 
 			foreach ( $changed_posts as $post ) {
