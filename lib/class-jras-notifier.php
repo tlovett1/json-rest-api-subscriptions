@@ -136,17 +136,17 @@ class JRAS_Notifier {
 
 			foreach ( $deleted_posts as $post_id => $post ) {
 				$post->action = 'delete';
-				$changed_posts[] = $post;
+				$changed_posts['delete' . $post_id] = $post;
 			}
 
 			foreach ( $created_posts as $post_id => $post ) {
 				$post->action = 'create';
-				$changed_posts[] = $post;
+				$changed_posts['create' . $post_id] = $post;
 			}
 
 			foreach ( $updated_posts as $post_id => $post ) {
 				$post->action = 'update';
-				$changed_posts[] = $post;
+				$changed_posts['update' . $post_id] = $post;
 			}
 
 			foreach ( $changed_posts as $post ) {
@@ -212,12 +212,12 @@ class JRAS_Notifier {
 								// Delete subscription since post is gone
 								if ( 'delete' === $post->action ) {
 									wp_delete_post( $subscription_id, true );
+
+									$deleted_post_ids[] = $post->ID;
 								}
 							}
 						}
 					}
-
-					$deleted_post_ids[] = $post->ID;
 				}
 			}
 
