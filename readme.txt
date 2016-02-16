@@ -7,7 +7,7 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Enable subscriptions to posts, pages, and custom post types in WordPress. Users can securely subscribe via simple API routes to new content, content updates, and content deletes for post types or single pieces of content.
+Enable subscriptions to posts, pages, and custom post types. Users can securely subscribe via simple API routes to created/updated/deleted content.
 
 == Description ==
 
