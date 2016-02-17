@@ -146,6 +146,8 @@ X-WP-Notification: https://subscriptionsite.com
 }
 ```
 
+*The website receiving the notification request MUST respond with an HTTP 200 status code and an `X-WP-Subscription-Signature` header containing the signature provided when first creating the subscription. Failure to do either of those things will result in the subscription being delete.*
+
 ## License
 
 JSON REST API Subscriptions is free software; you can redistribute it and/or modify it under the terms of the [GNU General
