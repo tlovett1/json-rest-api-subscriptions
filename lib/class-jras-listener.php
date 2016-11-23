@@ -112,7 +112,7 @@ class JRAS_Listener {
 				$deleted_posts = get_option( 'jras_deleted_posts', array() );
 				$deleted_posts[ $post->ID ] = $post;
 
-				update_option( 'jras_deleted_posts', $created_posts );
+				update_option( 'jras_deleted_posts', $deleted_posts );
 			}
 		}
 	}
